@@ -31,3 +31,19 @@ class Queue {
     return this.queue.length;
   }
 }
+
+function checkRow(pos, change) {
+  if (pos[0] + change >= 0 && pos[0] + change <= 7) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkCollumn(pos, change) {
+  if (pos[1] + change >= 0 && pos[1] + change <= 7) {
+    return true;
+  } else {
+    return false;
+  }
+}
