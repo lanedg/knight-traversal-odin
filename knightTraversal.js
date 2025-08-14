@@ -47,3 +47,34 @@ function checkCollumn(pos, change) {
     return false;
   }
 }
+
+function addLegalMoves(pos, queue) {
+  if (checkRow(pos, -2) && checkCollumn(pos, -1)) {
+    queue.enqueue([pos[0] - 2, pos[1] - 1]);
+  }
+  if (checkRow(pos, -1) && checkCollumn(pos, -2)) {
+    queue.enqueue([pos[0] - 1, pos[1] - 2]);
+  }
+  if (checkRow(pos, -2) && checkCollumn(pos, +1)) {
+    queue.enqueue([pos[0] - 2, pos[1] + 1]);
+  }
+  if (checkRow(pos, -1) && checkCollumn(pos, +2)) {
+    queue.enqueue([pos[0] - 1, pos[1] + 2]);
+  }
+  if (checkRow(pos, +2) && checkCollumn(pos, -1)) {
+    queue.enqueue([pos[0] + 2, pos[1] - 1]);
+  }
+  if (checkRow(pos, +1) && checkCollumn(pos, -2)) {
+    queue.enqueue([pos[0] + 1, pos[1] - 2]);
+  }
+  if (checkRow(pos, +2) && checkCollumn(pos, +1)) {
+    queue.enqueue([pos[0] + 2, pos[1] + 1]);
+  }
+  if (checkRow(pos, +1) && checkCollumn(pos, +2)) {
+    queue.enqueue([pos[0] + 1, pos[1] + 2]);
+  }
+}
+
+// [row, collumn] vertices
+
+function knightMoves(start, end) {}
