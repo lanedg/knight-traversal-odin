@@ -77,4 +77,10 @@ function addLegalMoves(pos, queue) {
 
 // [row, collumn] vertices
 
-function knightMoves(start, end) {}
+function equalToEnd(pos, end) {
+  if (pos[0] === end[0] && pos[1] === end[1]) {
+    return true;
+  } else {
+    return false;
+  }
+}
