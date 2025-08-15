@@ -48,31 +48,80 @@ function checkCollumn(pos, change) {
   }
 }
 
-function addLegalMoves(pos, queue) {
+function addLegalMoves(pos, queue, visited, cameFrom) {
   if (checkRow(pos, -2) && checkCollumn(pos, -1)) {
-    queue.enqueue([pos[0] - 2, pos[1] - 1]);
+    if (!visited.has(`${pos[0] - 2}, ${pos[1] - 1}`)) {
+      queue.enqueue([pos[0] - 2, pos[1] - 1]);
+      visited.add(`${pos[0] - 2}, ${pos[1] - 1}`);
+      cameFrom.set(`${pos[0] - 2}, ${pos[1] - 1}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
   if (checkRow(pos, -1) && checkCollumn(pos, -2)) {
-    queue.enqueue([pos[0] - 1, pos[1] - 2]);
+    if (!visited.has(`${pos[0] - 1}, ${pos[1] - 2}`)) {
+      queue.enqueue([pos[0] - 1, pos[1] - 2]);
+      visited.add(`${pos[0] - 1}, ${pos[1] - 2}`);
+      cameFrom.set(`${pos[0] - 1}, ${pos[1] - 2}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
   if (checkRow(pos, -2) && checkCollumn(pos, +1)) {
-    queue.enqueue([pos[0] - 2, pos[1] + 1]);
+    if (!visited.has(`${pos[0] - 2}, ${pos[1] + 1}`)) {
+      queue.enqueue([pos[0] - 2, pos[1] + 1]);
+      visited.add(`${pos[0] - 2}, ${pos[1] + 1}`);
+      cameFrom.set(`${pos[0] - 2}, ${pos[1] + 1}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
   if (checkRow(pos, -1) && checkCollumn(pos, +2)) {
-    queue.enqueue([pos[0] - 1, pos[1] + 2]);
+    if (!visited.has(`${pos[0] - 1}, ${pos[1] + 2}`)) {
+      queue.enqueue([pos[0] - 1, pos[1] + 2]);
+      visited.add(`${pos[0] - 1}, ${pos[1] + 2}`);
+      cameFrom.set(`${pos[0] - 1}, ${pos[1] + 2}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
   if (checkRow(pos, +2) && checkCollumn(pos, -1)) {
-    queue.enqueue([pos[0] + 2, pos[1] - 1]);
+    if (!visited.has(`${pos[0] + 2}, ${pos[1] - 1}`)) {
+      queue.enqueue([pos[0] + 2, pos[1] - 1]);
+      visited.add(`${pos[0] + 2}, ${pos[1] - 1}`);
+      cameFrom.set(`${pos[0] + 2}, ${pos[1] - 1}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
   if (checkRow(pos, +1) && checkCollumn(pos, -2)) {
-    queue.enqueue([pos[0] + 1, pos[1] - 2]);
+    if (!visited.has(`${pos[0] + 1}, ${pos[1] - 2}`)) {
+      queue.enqueue([pos[0] + 1, pos[1] - 2]);
+      visited.add(`${pos[0] + 1}, ${pos[1] - 2}`);
+      cameFrom.set(`${pos[0] + 1}, ${pos[1] - 2}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
   if (checkRow(pos, +2) && checkCollumn(pos, +1)) {
-    queue.enqueue([pos[0] + 2, pos[1] + 1]);
+    if (!visited.has(`${pos[0] + 2}, ${pos[1] + 1}`)) {
+      queue.enqueue([pos[0] + 2, pos[1] + 1]);
+      visited.add(`${pos[0] + 2}, ${pos[1] + 1}`);
+      cameFrom.set(`${pos[0] + 2}, ${pos[1] + 1}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
   if (checkRow(pos, +1) && checkCollumn(pos, +2)) {
-    queue.enqueue([pos[0] + 1, pos[1] + 2]);
+    if (!visited.has(`${pos[0] + 1}, ${pos[1] + 2}`)) {
+      queue.enqueue([pos[0] + 1, pos[1] + 2]);
+      visited.add(`${pos[0] + 1}, ${pos[1] + 2}`);
+      cameFrom.set(`${pos[0] + 1}, ${pos[1] + 2}`, `${pos[0]}, ${pos[1]}`);
+    }
   }
+}
+
+function logPath(endPos, startPos, cameFrom) {
+  let fromPos = `${endPos[0]}, ${endPos[1]}`;
+  let moves = 0;
+  const pathArray = [];
+  pathArray.push(fromPos);
+  while (fromPos !== `${startPos[0]}, ${startPos[1]}`) {
+    fromPos = cameFrom.get(fromPos);
+    pathArray.push(fromPos);
+    moves++;
+  }
+  pathArray.reverse();
+  console.log(`You made it in ${moves} moves. Here's your path: `);
+  pathArray.forEach((pathStop) => {
+    console.log(`[${pathStop}]`);
+  });
 }
 
 // [row, collumn] vertices
@@ -84,3 +133,25 @@ function equalToEnd(pos, end) {
     return false;
   }
 }
+
+function knightMoves(start, end) {
+  const queue = new Queue();
+  const visited = new Set();
+  const cameFrom = new Map();
+
+  queue.enqueue(start);
+  visited.add(`${start[0]}, ${start[1]}`);
+  let pos;
+  while (queue.size() > 0) {
+    pos = queue.dequeue();
+
+    if (equalToEnd(pos, end)) {
+      logPath(pos, start, cameFrom);
+      return;
+    }
+
+    addLegalMoves(pos, queue, visited, cameFrom);
+  }
+}
+
+knightMoves([7, 5], [2, 7]);
